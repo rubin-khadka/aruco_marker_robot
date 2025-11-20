@@ -35,7 +35,7 @@
 
     <xacro:include filename="$(find aruco_marker_robot)/urdf/materials.xacro" />
 
-    <xacro:include filename="$(find aruco_marker_robot)/urdf/autonomous_robot.gazebo" />
+    <xacro:include filename="$(find aruco_marker_robot)/urdf/marker_follower_robot.gazebo" />
 
     <!-- Base Footprint -->
     <link name="base_footprint" />
