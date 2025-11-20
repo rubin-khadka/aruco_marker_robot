@@ -16,12 +16,10 @@ def generate_launch_description():
     pathModelFile = os.path.join(get_package_share_directory(packageName), modelFilePath)
     robotDescription = xacro.process_file(pathModelFile).toxml()
 
-    # Fixed: Correct path to gz_sim package and fixed launch arguments
     gazebo_rosPackageLaunch = PythonLaunchDescriptionSource(
         os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
     )
 
-    # Fixed: Added missing quotes and corrected method call
     gazeboLaunch = IncludeLaunchDescription(
         gazebo_rosPackageLaunch, 
         launch_arguments={
@@ -36,7 +34,7 @@ def generate_launch_description():
         arguments=[
             '-name', robotName,
             '-topic', 'robot_description',
-            "-x", "0.0", "-y", "0.0", "-z", "0.2"
+            "-x", "0.0", "-y", "0.0", "-z", "0.0" # made change here , form 0.15 to 0.0 in z direction
         ],
         output='screen',
     )
@@ -68,11 +66,27 @@ def generate_launch_description():
         output='screen', 
     )
 
+    rviz_config_path = os.path.join(
+        get_package_share_directory(packageName),
+        'rviz',
+        'visualize.rviz'
+    )
+
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_path],
+        parameters=[{'use_sim_time': True}]
+    )
+
     launchDescriptionObject = LaunchDescription()
 
     launchDescriptionObject.add_action(gazeboLaunch)
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+    launchDescriptionObject.add_action(rviz_node)
 
     return launchDescriptionObject
