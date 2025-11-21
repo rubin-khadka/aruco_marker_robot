@@ -73,6 +73,28 @@ def generate_launch_description():
         output='screen', 
     )
 
+    # Image Bridge with compression
+    gz_image_bridge_node = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/image"],
+        output="screen",
+        parameters=[{
+            'use_sim_time': True,
+            'camera.image.compressed.jpeg_quality': 75  
+        }],
+    )
+
+    # Relay node for camera_info
+    relay_camera_info_node = Node(
+        package='topic_tools',
+        executable='relay',
+        name='relay_camera_info',
+        output='screen',
+        arguments=['/camera/camera_info', '/camera/image/camera_info'],
+        parameters=[{'use_sim_time': True}]
+    )
+
     rviz_config_path = os.path.join(
         get_package_share_directory(packageName),
         'rviz',
@@ -94,6 +116,8 @@ def generate_launch_description():
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+    launchDescriptionObject.add_action(gz_image_bridge_node)  
+    launchDescriptionObject.add_action(relay_camera_info_node) 
     launchDescriptionObject.add_action(rviz_node)
 
     return launchDescriptionObject
