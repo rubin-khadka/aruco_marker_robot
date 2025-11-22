@@ -1,0 +1,4 @@
+# ignore vs code 
+.vscode/*
+
+log/*
