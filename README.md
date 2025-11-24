@@ -13,6 +13,9 @@
     - [Launch the Robot with Gazebo Environment](#launch-the-robot-with-gazebo-environment)
     - [Launch the Marker Detection Node](#launch-the-marker-detection-node)
 - [Implementation Details](#implementation-details)
+    - [Development of the Robot](#development-of-the-robot)
+    - [Marker Detection Process](#marker-detection-process)
+    - [Visual Servoing Control](#visual-servoing-control)
 
 ## Introduction
 
@@ -21,15 +24,15 @@ This assignment implements a comprehensive marker detection and visual servoing 
 ## Robot Platforms & Simulation Environment
 
 ### Differential Drive Robot
-<img src="assets/robot_caster.png" width="50%" alt="Two-wheeled robot"> <br>
+<img src="assets/robot_caster.png" width="40%" alt="Two-wheeled robot"> <br>
 *Features two driven wheels at front and a caster wheel at back*
 
 ### Skid-Steer Robot
-<img src="assets/robot_diff.png" width="50%" alt="Two-wheeled robot"> <br>
+<img src="assets/robot_diff.png" width="40%" alt="Two-wheeled robot"> <br>
 *Features four wheels with skid-steer drive controller*
 
 ### Gazebo environment
-<img src="assets/gazeboenv.png" width="50%" alt="gazebo env"> <br> 
+<img src="assets/gazeboenv.png" width="40%" alt="gazebo env"> <br> 
 Custom world featuring 5 ArUco markers arranged in a circle around the robot spawn point
 
 ## Getting Started (Read Before Action)
@@ -112,4 +115,73 @@ ros2 run aruco_marker_robot aruco_marker_processor
 - Publish processed images with circles to `/processed_image` topic
 - Wait 10 seconds at each centered marker before moving to the next
 
+To see the processed image (marker detection with circles) topic `/processed_image` use: `rqt`
+
 ## Implementation Details
+
+### Development of the Robot
+
+#### Robot Design & Custom Development
+- Custom Built Robot: Developed from scratch specifically for this assignment
+- Inspiration Reference: Initial design inspired by [MOGI-ROS/Week-3-4-Gazebo-basics](https://github.com/MOGI-ROS/Week-3-4-Gazebo-basics)
+- Significant Modifications: Extensive customizations beyond the reference implementation
+
+#### URDF Structure & Configurations
+- Dual Configuration Support: System supports both two-wheel and four-wheel robot variants
+- Two-Wheel Version: Standard differential drive with caster wheel
+- Four-Wheel Version: Skid-steer configuration with enhanced stability
+- Modular Design: Same sensor suite and control interfaces for both configurations
+
+#### Sensor Suite & Capabilities
+- Vision System: RGB camera for ArUco marker detection
+- Inertial Measurement: IMU provides orientation and angular velocity
+- Localization: EKF sensor fusion available (odometry/IMU)
+- Interchangeable: All sensors function identically across both robot versions
+
+#### Control System
+- Unified Interface: Both robots use `/cmd_vel` topic for velocity commands
+- Gazebo Plugins: Appropriate differential drive controllers for each configuration
+- Sensor Topics: Consistent ROS 2 message interfaces
+- Assignment Compatibility: Marker detection and visual servoing work identically on both platforms
+
+### Marker Detection Process
+
+#### Initial Scanning Phase
+- Robot performs 360° rotation using IMU angular velocity integration
+- Camera captures images at 10Hz rate during rotation
+- OpenCV ArUco detector identifies all visible markers and their IDs
+- Detected marker IDs are stored in a set to avoid duplicates
+
+#### Image Processing Pipeline
+- Each frame is converted from ROS Image to OpenCV format using cv_bridge
+- `cv::aruco::detectMarkers()` processes the image to find ArUco markers
+- For each detected marker, the function returns:
+    - Marker ID (unique identifier)
+    - Four corner coordinates (pixel positions)
+- Marker centers are calculated by averaging the four corner points
+
+#### Visual Overlay & Publishing
+- Processed images are created by cloning the original frame
+- `cv::aruco::drawDetectedMarkers()` draws marker borders and IDs
+- Green circles (25px radius) are drawn around calculated marker centers
+- Final processed images are published to `/processed_image` topic
+
+#### Sequential Processing
+- After scanning, markers are sorted by ID in ascending order
+- Robot searches for each marker sequentially using visual servoing
+- When marker is centered, processed images with circles are continuously published
+- 10-second dwell time allows observation before moving to next marker
+
+### Visual Servoing Control
+#### Error Calculation
+- Image Center: `(image_width/2, image_height/2)` - fixed reference point
+- Marker Center: Average of 4 detected corner coordinates from ArUco detection
+- Horizontal Error: `error_x = marker_center_x - image_center_x`
+- Vertical Monitoring: Error in Y-direction is monitored but not used for control
+
+#### Control Law
+- Proportional Controller: `angular_velocity = -Kp * error_x`
+- Gain Tuning: `Kp = 0.01` (empirically determined for smooth rotation)
+- Sign Convention: Negative sign ensures correct rotation direction
+    - Positive error (marker right of center) → negative angular velocity (turn right)
+    - Negative error (marker left of center) → positive angular velocity (turn left)
