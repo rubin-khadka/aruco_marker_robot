@@ -7,16 +7,36 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(nav_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+
+
+add_executable(aruco_marker_processor src/aruco_marker_processor.cpp)
+ament_target_dependencies(aruco_marker_processor
+  rclcpp 
+  sensor_msgs 
+  geometry_msgs
+  nav_msgs
+  cv_bridge 
+  OpenCV
+)
+
+install(TARGETS
+  aruco_marker_processor
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY
-config
-launch
-rviz
-worlds
-urdf
+  config
+  launch
+  rviz
+  worlds
+  urdf
 DESTINATION share/${PROJECT_NAME}
 )
 

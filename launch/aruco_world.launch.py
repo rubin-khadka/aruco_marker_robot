@@ -56,6 +56,23 @@ def generate_launch_description():
         }]
     )
 
+    ekf_params = os.path.join(
+        get_package_share_directory(packageName),
+        'config',
+        'ekf.yaml'
+    )
+
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[
+            ekf_params,
+            {'use_sim_time': True}
+        ]
+    )
+
     bridge_params = os.path.join(
         get_package_share_directory(packageName),
         'config',
@@ -116,6 +133,7 @@ def generate_launch_description():
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+    launchDescriptionObject.add_action(ekf_node)
     launchDescriptionObject.add_action(gz_image_bridge_node)  
     launchDescriptionObject.add_action(relay_camera_info_node) 
     launchDescriptionObject.add_action(rviz_node)
