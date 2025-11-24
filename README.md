@@ -6,6 +6,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Robot Platforms & Simulation Environment](#robot-platforms--simulation-environment)
+- [Video Demonstration](#video-demonstration)
 - [Getting Started](#getting-started-read-before-action)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
@@ -24,16 +25,20 @@ This assignment implements a comprehensive marker detection and visual servoing 
 ## Robot Platforms & Simulation Environment
 
 ### Differential Drive Robot
-<img src="assets/robot_caster.png" width="40%" alt="Two-wheeled robot"> <br>
+<img src="assets/robot_caster.png" width="30%" alt="Two-wheeled robot"> <br>
 *Features two driven wheels at front and a caster wheel at back*
 
+<img src="assets/two_wheel.png" width="50%" alt="gazebo env"> <br> 
+*Two-wheeled robot spawned in Gazebo environment with 5 ArUco markers*
+
 ### Skid-Steer Robot
-<img src="assets/robot_diff.png" width="40%" alt="Two-wheeled robot"> <br>
+<img src="assets/robot_diff.png" width="30%" alt="Two-wheeled robot"> <br>
 *Features four wheels with skid-steer drive controller*
 
-### Gazebo environment
-<img src="assets/gazeboenv.png" width="40%" alt="gazebo env"> <br> 
-Custom world featuring 5 ArUco markers arranged in a circle around the robot spawn point
+<img src="assets/gazeboenv.png" width="50%" alt="gazebo env"> <br> 
+*Four-wheeled robot spawned in identical Gazebo environment with 5 ArUco markers*
+
+## Video Demonstration
 
 ## Getting Started (Read Before Action)
 
@@ -146,6 +151,13 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 
 ### Marker Detection Process
 
+#### State Machine Workflow
+- SCANNING: Robot rotates 360° using IMU, collects all marker IDs
+- SORTING: Organizes detected markers by ID in ascending order
+- SEARCHING: Rotates to find current target marker
+- CENTERING: Visual servoing to center marker + 10-second dwell
+- COMPLETE: All markers processed, mission finished
+
 #### Initial Scanning Phase
 - Robot performs 360° rotation using IMU angular velocity integration
 - Camera captures images at 10Hz rate during rotation
@@ -171,6 +183,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - Robot searches for each marker sequentially using visual servoing
 - When marker is centered, processed images with circles are continuously published
 - 10-second dwell time allows observation before moving to next marker
+- Automatic Progression: System automatically moves to next marker after dwell time
 
 ### Visual Servoing Control
 #### Error Calculation
