@@ -10,10 +10,10 @@
 #include <algorithm>
 #include <cmath>
 
-class SequentialCenteringScanner : public rclcpp::Node
+class ArucoMarkerProcessor : public rclcpp::Node
 {
 public:
-    SequentialCenteringScanner() : Node("sequential_centering_scanner")
+    ArucoMarkerProcessor() : Node("aruco_marker_processing")
     {
         // Parameters
         camera_topic = "/camera/image";
@@ -24,11 +24,11 @@ public:
         // Subscribe to camera and IMU
         image_sub = this->create_subscription<sensor_msgs::msg::Image>(
             camera_topic, 10,
-            std::bind(&SequentialCenteringScanner::image_callback, this, std::placeholders::_1));
+            std::bind(&ArucoMarkerProcessor::image_callback, this, std::placeholders::_1));
             
         imu_sub = this->create_subscription<sensor_msgs::msg::Imu>(
             imu_topic, 10,
-            std::bind(&SequentialCenteringScanner::imu_callback, this, std::placeholders::_1));
+            std::bind(&ArucoMarkerProcessor::imu_callback, this, std::placeholders::_1));
         
         // Publishers
         cmd_vel_pub = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
@@ -54,10 +54,10 @@ public:
         // Visual servoing parameters
         kp_angular = 0.01;
         center_threshold = 10.0;
-        wait_duration = 10.0;
+        wait_duration = 5.0;
         
-        RCLCPP_INFO(this->get_logger(), "=== SEQUENTIAL CENTERING SCANNER STARTED ===");
-        RCLCPP_INFO(this->get_logger(), "State: SCANNING - Rotating 360° to detect all markers");
+        RCLCPP_INFO(this->get_logger(), "=== Aruco Marker Detector Node ===");
+        RCLCPP_INFO(this->get_logger(), "State: SCANNING ");
     }
 
 private:
@@ -109,7 +109,7 @@ private:
                     break;
             }
             
-            cv::imshow("Sequential Centering Scanner", display_image);
+            cv::imshow("Aruco Marker Processor", display_image);
             cv::waitKey(1);
             
         } catch (const std::exception& e) {
@@ -148,7 +148,7 @@ private:
             RCLCPP_INFO(this->get_logger(), "Found %zu markers", detected_marker_ids.size());
         }
         
-        cv::putText(display_image, "SCANNING: Rotating 360°", cv::Point(10, 30),
+        cv::putText(display_image, "State: Scanning", cv::Point(10, 30),
                    cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
         cv::putText(display_image, "Detected: " + std::to_string(detected_marker_ids.size()) + " markers", 
                    cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
@@ -201,7 +201,7 @@ private:
         } else {
             // Continue searching by rotating
             auto twist_msg = geometry_msgs::msg::Twist();
-            twist_msg.angular.z = 0.3;
+            twist_msg.angular.z = 0.5;
             cmd_vel_pub->publish(twist_msg);
             
             if (!marker_ids.empty()) {
@@ -209,7 +209,7 @@ private:
             }
         }
         
-        cv::putText(display_image, "SEARCHING: Marker ID " + std::to_string(target_id), 
+        cv::putText(display_image, "Searching State: Marker ID " + std::to_string(target_id), 
                    cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 165, 255), 2);
         cv::putText(display_image, "Progress: " + std::to_string(current_target_index + 1) + 
                    "/" + std::to_string(sorted_marker_ids.size()), 
@@ -243,11 +243,11 @@ private:
             cv::Point2f image_center(display_image.cols / 2.0, display_image.rows / 2.0);
             double error_x = center.x - image_center.x;
             
-            // Create processed image with SMALLER circle on marker pattern
+            // Create processed image with circle on marker pattern
             cv::Mat processed_image = display_image.clone();
             cv::aruco::drawDetectedMarkers(processed_image, marker_corners, marker_ids);
             
-            // OPTION 1 + 2: Smaller circle radius (25 instead of 40) on precise center
+            // Circle around the marker
             cv::circle(processed_image, center, 25, cv::Scalar(0, 255, 0), 3);
             
             if (!is_centered) {
@@ -257,26 +257,26 @@ private:
                     twist_msg.angular.z = -kp_angular * error_x;
                     cmd_vel_pub->publish(twist_msg);
                     
-                    cv::putText(display_image, "CENTERING: Marker ID " + std::to_string(target_id), 
+                    cv::putText(display_image, "State Centering: Marker ID " + std::to_string(target_id), 
                             cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
                     cv::putText(display_image, "Error X: " + std::to_string((int)error_x) + " pixels", 
                             cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
                     
                 } else {
-                    // Just centered! Stop robot and start dwell time
+                    // Just centered! Stop robot and start small delay
                     is_centered = true;
                     center_start_time = current_time;
                     auto twist_msg = geometry_msgs::msg::Twist();
                     cmd_vel_pub->publish(twist_msg);
                     
-                    RCLCPP_INFO(this->get_logger(), "=== MARKER %d CENTERED! Starting 10-second dwell ===", target_id);
+                    RCLCPP_INFO(this->get_logger(), "=== MARKER %d CENTERED! ===", target_id);
                 }
             }
             
             if (is_centered) {
                 // Already centered - just maintain position and count down
                 double elapsed = (current_time - center_start_time).seconds();
-                double time_left = wait_duration - elapsed;
+                // double time_left = wait_duration - elapsed;
                 
                 // Draw smaller circle on display image too
                 cv::circle(display_image, center, 25, cv::Scalar(0, 255, 0), 3);
@@ -285,16 +285,16 @@ private:
                 
                 cv::putText(display_image, "CENTERED: Marker ID " + std::to_string(target_id), 
                         cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
-                cv::putText(display_image, "Time left: " + std::to_string((int)time_left) + " seconds", 
-                        cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
+                // cv::putText(display_image, "Time left: " + std::to_string((int)time_left) + " seconds", 
+                //         cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
                 
                 // Keep robot stopped
                 auto twist_msg = geometry_msgs::msg::Twist();
                 cmd_vel_pub->publish(twist_msg);
                 
-                // Check if dwell time is complete
+                // Check if delay time is complete
                 if (elapsed >= wait_duration) {
-                    RCLCPP_INFO(this->get_logger(), "=== Dwell complete. Moving to next marker ===");
+                    RCLCPP_INFO(this->get_logger(), "=== Moving to next marker ===");
                     
                     current_target_index++;
                     if (current_target_index < sorted_marker_ids.size()) {
@@ -374,7 +374,7 @@ private:
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<SequentialCenteringScanner>();
+    auto node = std::make_shared<ArucoMarkerProcessor>();
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;
