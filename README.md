@@ -6,7 +6,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Robot Platforms & Simulation Environment](#robot-platforms--simulation-environment)
-- [Video Demonstration](#video-demonstration)
+- [Video Demonstrations](#video-demonstrations)
 - [Getting Started](#getting-started-read-before-action)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
