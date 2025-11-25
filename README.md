@@ -18,6 +18,7 @@
     - [Marker Detection Process](#marker-detection-process)
     - [Visual Servoing Control](#visual-servoing-control)
 - [Project Structure](#project-structure)
+- [Summary](#summary)
 
 ## Introduction
 
@@ -41,9 +42,10 @@ This assignment implements a comprehensive marker detection and visual servoing 
 
 ## Video Demonstrations
 
+### Video 1: Skid-Steer Robot Implementation
 https://github.com/user-attachments/assets/58ca94b2-befd-46fd-aff9-702826df26b8
 
-**Video Description:** The demonstration shows the complete system operation with three synchronized views:
+The demonstration shows the complete system operation with three synchronized views:
     
 1. **Gazebo Simulation** (Left): Four-wheeled skid-steer robot navigating among 5 ArUco markers.
 2. **OpenCV Processing** (Top Right): Real-time visualization of:
@@ -52,11 +54,18 @@ https://github.com/user-attachments/assets/58ca94b2-befd-46fd-aff9-702826df26b8
     - Search behavior during marker scanning
 3. **RQT Image View** (Bottom Right): Live feed from /processed_image topic showing circled markers as required.
 
-
-
+### Video 2: Differential Drive Robot Implementation
 https://github.com/user-attachments/assets/b9dd85f6-75f3-49bc-9c51-9b31dd8f99d5
 
+This demonstration features the two-wheeled differential drive robot with caster wheel:
 
+1. **Gazebo Simulation** (Left): Two-wheeled robot with caster wheel navigating the marker environment.
+2. **OpenCV Processing** (Top Right): Real-time marker detection and visual servoing visualization.
+3. **Terminal View** (Bottom Right): Node execution output showing:
+    - Real-time feedback and status updates
+    - Marker detection notifications
+    - Control system feedback for user monitoring
+    - Sequential navigation progress through marker IDs
 
 ## Getting Started (Read Before Action)
 
@@ -218,4 +227,64 @@ To see the processed image (marker detection with circles) topic `/processed_ima
     - Negative error (marker left of center) → positive angular velocity (turn left)
 
 ## Project Structure
-***Note:*** This implementation successfully addresses both the core requirements and optional components of Assignment 1, providing a robust framework for marker detection and visual servoing in both simulation and real-world scenarios.
+```bash
+aruco_marker_robot/
+├── launch/
+│   ├── aruco_world.launch.launch.py
+│   └── diff_aruco_world.launch.launch.py
+├── gazebo_models/
+│   └── aruco_box/
+├── src/
+│   └── aruco_marker_processor.cpp
+├── urdf/
+│   ├── diff_marker_follower_robot.gazebo
+│   ├── diff_marker_follower_robot.urdf
+│   ├── marker_follower_robot.gazebo
+│   ├── marker_follower_robot.urdf
+│   └── materials.xacro
+├── worlds/
+│   └── marker_world.sdf
+├── config/
+│   ├── bridge_parameters.yaml
+│   └── ekf.yaml
+├── rviz/
+│   └── visualize.rviz
+├── assets/
+│   ├── gazeboenv.png
+│   ├── robot_caster.png
+│   ├── robot_diff.png
+│   ├── two_wheel.png
+│   ├── demo_four_wheeled.mp4
+│   └── demo_two_wheeled,mp4
+├── CMakeLists.txt
+├── package.xml
+└── README.md
+```
+### Directory Overview:
+
+- `launch/`: ROS 2 launch files for simulation environments
+    - `aruco_world.launch.py`: Launches two-wheeled robot in marker world
+    - `diff_aruco_world.launch.py`: Launches four-wheeled differential drive robot
+- `gazebo_models/`: Contains ArUco marker models for Gazebo simulation
+    - `aruco_box/`: Marker cube models with different IDs
+- `src/`: C++ source code implementation
+    - `aruco_marker_processor.cpp`: Main node for marker detection and visual servoing
+- `urdf/`: Robot description files
+    - `marker_follower_robot.urdf & .gazebo`: Two-wheeled robot with caster wheel
+    - `diff_marker_follower_robot.urdf & .gazebo`: Four-wheeled skid-steer robot
+    - `materials.xacro`: Visual properties for robot models
+- `worlds/`: Simulation environment
+    - `marker_world.sdf`: Gazebo world with 5 ArUco markers in circular arrangement
+- `config/`: Configuration files
+    - `bridge_parameters.yaml`: ROS-Gazebo bridge settings
+    - `ekf.yaml`: Extended Kalman Filter parameters
+- `rviz/`: Visualization configuration
+    - `visualize.rviz`: RViz setup for robot and sensor data visualization
+- `assets/`: Media files for documentation
+    - `Images`: Robot models and simulation screenshots
+    - `Videos`: Demonstration of both robot implementations
+- `CMakeLists.txt`: Build configuration for ROS 2 package
+- `package.xml`: Package manifest and dependency management
+
+## Summary
+This implementation successfully addresses both the core requirements and optional components of Assignment 1, providing a robust framework for marker detection and visual servoing in both simulation and real-world scenarios.
