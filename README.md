@@ -17,10 +17,11 @@
     - [Development of the Robot](#development-of-the-robot)
     - [Marker Detection Process](#marker-detection-process)
     - [Visual Servoing Control](#visual-servoing-control)
+- [Project Structure](#project-structure)
 
 ## Introduction
 
-This assignment implements a comprehensive marker detection and visual servoing system using **ROS 2**, **OpenCV**, and **ArUco markers**. The system is capable of operating with two different robot configurations to detect, identify, and navigate to markers in a structured environment.
+This assignment implements a comprehensive marker detection and visual servoing system using **ROS 2**, **OpenCV**, and **ArUco markers**. The system is designed to operate with two different robot configurations (differential drive and skid-steer drive) to detect, identify, and navigate to markers in a structured environment. The robot sequentially identifies all markers, then navigates to each marker in ascending ID order while maintaining visual servoing control to keep the marker centered in the camera view.
 
 ## Robot Platforms & Simulation Environment
 
@@ -38,9 +39,19 @@ This assignment implements a comprehensive marker detection and visual servoing 
 <img src="assets/gazeboenv.png" width="50%" alt="gazebo env"> <br> 
 *Four-wheeled robot spawned in identical Gazebo environment with 5 ArUco markers*
 
-## Video Demonstration
+## Video Demonstrations
 
 https://github.com/user-attachments/assets/58ca94b2-befd-46fd-aff9-702826df26b8
+
+**Video Description:** The demonstration shows the complete system operation with three synchronized views:
+    
+1. **Gazebo Simulation** (Left): Four-wheeled skid-steer robot navigating among 5 ArUco markers.
+2. **OpenCV Processing** (Top Right): Real-time visualization of:
+    - Marker detection and identification
+    - Visual servoing for centering control
+    - Search behavior during marker scanning
+3. **RQT Image View** (Bottom Right): Live feed from /processed_image topic showing circled markers as required.
+
 
 ## Getting Started (Read Before Action)
 
@@ -200,3 +211,6 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - Sign Convention: Negative sign ensures correct rotation direction
     - Positive error (marker right of center) → negative angular velocity (turn right)
     - Negative error (marker left of center) → positive angular velocity (turn left)
+
+## Project Structure
+***Note:*** This implementation successfully addresses both the core requirements and optional components of Assignment 1, providing a robust framework for marker detection and visual servoing in both simulation and real-world scenarios.
