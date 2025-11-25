@@ -40,6 +40,11 @@ This assignment implements a comprehensive marker detection and visual servoing 
 
 ## Video Demonstration
 
+
+https://github.com/user-attachments/assets/58ca94b2-befd-46fd-aff9-702826df26b8
+
+
+
 ## Getting Started (Read Before Action)
 
 ### Prerequisites
