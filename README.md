@@ -53,6 +53,11 @@ https://github.com/user-attachments/assets/58ca94b2-befd-46fd-aff9-702826df26b8
 3. **RQT Image View** (Bottom Right): Live feed from /processed_image topic showing circled markers as required.
 
 
+
+https://github.com/user-attachments/assets/b9dd85f6-75f3-49bc-9c51-9b31dd8f99d5
+
+
+
 ## Getting Started (Read Before Action)
 
 ### Prerequisites
