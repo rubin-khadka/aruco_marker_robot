@@ -260,31 +260,32 @@ aruco_marker_robot/
 ├── package.xml
 └── README.md
 ```
+
 ### Directory Overview:
 
-- `launch/`: ROS 2 launch files for simulation environments
+- **`launch/`**: ROS 2 launch files for simulation environments
     - `aruco_world.launch.py`: Launches two-wheeled robot in marker world
     - `diff_aruco_world.launch.py`: Launches four-wheeled differential drive robot
-- `gazebo_models/`: Contains ArUco marker models for Gazebo simulation
+- **`gazebo_models/`**: Contains ArUco marker models for Gazebo simulation
     - `aruco_box/`: Marker cube models with different IDs
-- `src/`: C++ source code implementation
+- **`src/`**: C++ source code implementation
     - `aruco_marker_processor.cpp`: Main node for marker detection and visual servoing
-- `urdf/`: Robot description files
+- **`urdf/`**: Robot description files
     - `marker_follower_robot.urdf & .gazebo`: Two-wheeled robot with caster wheel
     - `diff_marker_follower_robot.urdf & .gazebo`: Four-wheeled skid-steer robot
     - `materials.xacro`: Visual properties for robot models
-- `worlds/`: Simulation environment
+- **`worlds/`**: Simulation environment
     - `marker_world.sdf`: Gazebo world with 5 ArUco markers in circular arrangement
-- `config/`: Configuration files
+- **`config/`**: Configuration files
     - `bridge_parameters.yaml`: ROS-Gazebo bridge settings
     - `ekf.yaml`: Extended Kalman Filter parameters
-- `rviz/`: Visualization configuration
+- **`rviz/`**: Visualization configuration
     - `visualize.rviz`: RViz setup for robot and sensor data visualization
-- `assets/`: Media files for documentation
+- **`assets/`**: Media files for documentation
     - `Images`: Robot models and simulation screenshots
     - `Videos`: Demonstration of both robot implementations
-- `CMakeLists.txt`: Build configuration for ROS 2 package
-- `package.xml`: Package manifest and dependency management
+- **`CMakeLists.txt`**: Build configuration for ROS 2 package
+- **`package.xml`**: Package manifest and dependency management
 
 ## Summary
 This implementation successfully addresses both the core requirements and optional components of Assignment 1, providing a robust framework for marker detection and visual servoing in both simulation and real-world scenarios.
