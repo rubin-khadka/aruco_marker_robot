@@ -113,7 +113,7 @@ source ~/aruco_ws/install/setup.bash
 #### 5. Add the Workspace to your ROS Environment
 To ensure that your workspace is sourced automatically every time you start a new terminal session, add it to your `.bashrc` file:
 ```bash
-echo "source ~/ros_ws/devel/setup.bash" >> ~/.bashrc
+echo "source ~/aruco_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
