@@ -1,6 +1,6 @@
 # Experimental Robotics Laboratory - Assignment 1
 
-### **Authors**
+### Authors
 
 **Rubin Khadka Chhetri**  
 `Student ID: 6558048`  
