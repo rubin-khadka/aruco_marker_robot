@@ -1,13 +1,35 @@
 # Experimental Robotics Laboratory - Assignment 1
-**Author:** Rubin Khadka Chhetri  
-**Student ID:** 6558048  
-**Course:** Experimental Robotics Laboratory 
+
+<div align="center">
+
+### 🔬 **Authors**
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <strong>Rubin Khadka Chhetri</strong><br>
+      <code>Student ID: 6558048</code><br>
+      <a href="https://github.com/rubin-khadka">
+        <img src="https://img.shields.io/badge/GitHub-Profile-181717?logo=github" alt="GitHub">
+      </a>
+    </td>
+    <td align="center">
+      <strong>Sarvenaz Ashoori</strong><br>
+      <code>Student ID: [Student ID]</code><br>
+      <a href="https://github.com/sarvenazrobotics">
+        <img src="https://img.shields.io/badge/GitHub-Profile-181717?logo=github" alt="GitHub">
+      </a>
+    </td>
+  </tr>
+</table>
+
+</div>
 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Robot Platforms & Simulation Environment](#robot-platforms--simulation-environment)
 - [Video Demonstration](#video-demonstration)
-- [Getting Started](#getting-started-read-before-action)
+- [Getting Started](#getting-started-read-before-action) 
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
 - [Launching the System](#launching-the-system)
@@ -113,7 +135,7 @@ source ~/aruco_ws/install/setup.bash
 #### 5. Add the Workspace to your ROS Environment
 To ensure that your workspace is sourced automatically every time you start a new terminal session, add it to your `.bashrc` file:
 ```bash
-echo "source ~/ros_ws/devel/setup.bash" >> ~/.bashrc
+echo "source ~/aruco_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -289,3 +311,14 @@ aruco_marker_robot/
 
 ## Summary
 This implementation successfully addresses both the core requirements and optional components of Assignment 1, providing a robust framework for marker detection and visual servoing in both simulation and real-world scenarios.
+
+**Features Delivered:**
+- Dual robot platform support (differential & skid-steer)
+- ArUco marker detection
+- Visual servoing
+- Sequential navigation to markers
+- Comprehensive documentation
+
+**Course**: Experimental Robotics Laboratory  
+**Year**: 2025
+**Status**: Assignment Completed
