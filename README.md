@@ -1,29 +1,15 @@
 # Experimental Robotics Laboratory - Assignment 1
 
-<div align="center">
+### **Authors**
 
-### 🔬 **Authors**
+**Rubin Khadka Chhetri**  
+`Student ID: 6558048`  
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/rubin-khadka)
 
-<table align="center">
-  <tr>
-    <td align="center">
-      <strong>Rubin Khadka Chhetri</strong><br>
-      <code>Student ID: 6558048</code><br>
-      <a href="https://github.com/rubin-khadka">
-        <img src="https://img.shields.io/badge/GitHub-Profile-181717?logo=github" alt="GitHub">
-      </a>
-    </td>
-    <td align="center">
-      <strong>Sarvenaz Ashoori</strong><br>
-      <code>Student ID: [Student ID]</code><br>
-      <a href="https://github.com/sarvenazrobotics">
-        <img src="https://img.shields.io/badge/GitHub-Profile-181717?logo=github" alt="GitHub">
-      </a>
-    </td>
-  </tr>
-</table>
+**Sarvenaz Ashoori**  
+`Student ID: 6878764`  
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github)](https://github.com/sarvenazrobotics)
 
-</div>
 
 ## Table of Contents
 - [Introduction](#introduction)
