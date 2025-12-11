@@ -162,7 +162,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 ## Implementation Details
 
 ### Development of the Robot
-
+---
 #### Robot Design & Custom Development
 - Custom Built Robot: Developed from scratch specifically for this assignment
 - Inspiration Reference: Initial design inspired by [MOGI-ROS/Week-3-4-Gazebo-basics](https://github.com/MOGI-ROS/Week-3-4-Gazebo-basics)
@@ -185,9 +185,9 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - Gazebo Plugins: Appropriate differential drive controllers for each configuration
 - Sensor Topics: Consistent ROS 2 message interfaces
 - Assignment Compatibility: Marker detection and visual servoing work identically on both platforms
-
+---
 ### Marker Detection Process
-
+---
 #### State Machine Workflow
 - SCANNING: Robot rotates 360° using IMU, collects all marker IDs
 - SORTING: Organizes detected markers by ID in ascending order
@@ -221,8 +221,9 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - When marker is centered, processed images with circles are continuously published
 - 10-second dwell time allows observation before moving to next marker
 - Automatic Progression: System automatically moves to next marker after dwell time
-
+---
 ### Visual Servoing Control
+---
 #### Error Calculation
 - Image Center: `(image_width/2, image_height/2)` - fixed reference point
 - Marker Center: Average of 4 detected corner coordinates from ArUco detection
