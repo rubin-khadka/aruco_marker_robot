@@ -28,8 +28,13 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Robot Platforms & Simulation Environment](#robot-platforms--simulation-environment)
+<<<<<<< HEAD
 - [Video Demonstration](#video-demonstration)
 - [Getting Started](#getting-started-read-before-action) 
+=======
+- [Video Demonstrations](#video-demonstrations)
+- [Getting Started](#getting-started-read-before-action)
+>>>>>>> b6cecdc2c79de5fd0e04254966d68c12900884df
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
 - [Launching the System](#launching-the-system)
