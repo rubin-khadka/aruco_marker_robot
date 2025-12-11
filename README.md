@@ -123,7 +123,7 @@ source ~/aruco_ws/install/setup.bash
 #### 5. Add the Workspace to your ROS Environment
 To ensure that your workspace is sourced automatically every time you start a new terminal session, add it to your `.bashrc` file:
 ```bash
-echo "source ~/aruco_ws/devel/setup.bash" >> ~/.bashrc
+echo "source ~/aruco_ws/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -185,7 +185,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - Gazebo Plugins: Appropriate differential drive controllers for each configuration
 - Sensor Topics: Consistent ROS 2 message interfaces
 - Assignment Compatibility: Marker detection and visual servoing work identically on both platforms
----
+
 ### Marker Detection Process
 ---
 #### State Machine Workflow
@@ -221,7 +221,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - When marker is centered, processed images with circles are continuously published
 - 10-second dwell time allows observation before moving to next marker
 - Automatic Progression: System automatically moves to next marker after dwell time
----
+
 ### Visual Servoing Control
 ---
 #### Error Calculation
