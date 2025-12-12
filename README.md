@@ -1,6 +1,6 @@
 # Experimental Robotics Laboratory - Assignment 1
 
-### **Authors**
+### Authors
 
 **Rubin Khadka Chhetri**  
 `Student ID: 6558048`  
@@ -17,7 +17,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Robot Platforms & Simulation Environment](#robot-platforms--simulation-environment)
-- [Video Demonstration](#video-demonstration)
+- [Video Demonstrations](#video-demonstrations)
 - [Getting Started](#getting-started-read-before-action) 
 - [Video Demonstrations](#video-demonstrations)
 - [Getting Started](#getting-started-read-before-action)
@@ -83,6 +83,7 @@ This demonstration features the two-wheeled differential drive robot with caster
 ## Getting Started (Read Before Action)
 
 ### Prerequisites
+---
 Before proceeding, make sure that **`ROS2 Jazzy`** is installed on your system.<br>
 If you haven’t set up ROS2 yet, refer to the official installation guide for ROS2 Jazzy on Ubuntu:<br>
 [Install ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation.html) <br>
@@ -96,7 +97,7 @@ If you haven’t set up ROS2 yet, refer to the official installation guide for R
 - `robot_localization`
 
 ### Setup 
-
+---
 #### 1. Set up your ROS workspace
 Create a new workspace (or use an existing one) and navigate to its `src` directory:
 ```bash
@@ -133,7 +134,7 @@ source ~/.bashrc
 ## Launching the System
 
 ### Launch the Robot with Gazebo Environment
-
+---
 You can run the assignment with two different robot configurations:
 
 #### Option 1: Two-Wheeled Caster Robot
@@ -149,6 +150,7 @@ ros2 launch aruco_marker_robot diff_aruco_world.launch.py
 - Launch RViz for visualization
 
 ### Launch the Marker Detection Node
+---
 After launching the simulation, run the marker processor:
 ```bash
 ros2 run aruco_marker_robot aruco_marker_processor 
