@@ -160,7 +160,7 @@ ros2 run aruco_marker_robot aruco_marker_processor
 - Sort markers by ID (lowest to highest)
 - Center each marker in the camera view using visual servoing
 - Publish processed images with circles to `/processed_image` topic
-- Wait 10 seconds at each centered marker before moving to the next
+- Wait 5 seconds at each centered marker before moving to the next
 
 To see the processed image (marker detection with circles) topic `/processed_image` use: `rqt`
 
@@ -197,7 +197,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - SCANNING: Robot rotates 360° using IMU, collects all marker IDs
 - SORTING: Organizes detected markers by ID in ascending order
 - SEARCHING: Rotates to find current target marker
-- CENTERING: Visual servoing to center marker + 10-second dwell
+- CENTERING: Visual servoing to center marker + 5-second dwell
 - COMPLETE: All markers processed, mission finished
 
 #### Initial Scanning Phase
@@ -224,7 +224,7 @@ To see the processed image (marker detection with circles) topic `/processed_ima
 - After scanning, markers are sorted by ID in ascending order
 - Robot searches for each marker sequentially using visual servoing
 - When marker is centered, processed images with circles are continuously published
-- 10-second dwell time allows observation before moving to next marker
+- 5-second dwell time allows observation before moving to next marker
 - Automatic Progression: System automatically moves to next marker after dwell time
 
 ### Visual Servoing Control
